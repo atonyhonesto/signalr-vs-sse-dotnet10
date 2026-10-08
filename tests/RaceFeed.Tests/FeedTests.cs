@@ -29,7 +29,7 @@ public class FeedTests
         await race.StartRaceAsync();
         var (laps, _) = await read;
         Assert.All(laps, l => Assert.Equal("24", l.Car));
-        Assert.Equal([1, 2, 3, 4], laps.Select(l => l.Lap));
+        Assert.Equal(new[] { 1, 2, 3, 4 }, laps.Select(l => l.Lap));
     }
 
     [Fact]

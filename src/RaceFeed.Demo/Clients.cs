@@ -3,7 +3,9 @@ using System.Diagnostics;
 using System.Net.Http.Json;
 using System.Net.ServerSentEvents;
 using System.Text.Json;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Hosting;
 using RaceFeed.Server;
 
 namespace RaceFeed.Demo;
