@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RaceFeed.Server/RaceFeed.Server.csproj" />
+    <Project Path="src/RaceFeed.Demo/RaceFeed.Demo.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/RaceFeed.Tests/RaceFeed.Tests.csproj" />
+  </Folder>
+</Solution>

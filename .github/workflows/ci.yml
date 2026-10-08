@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Build
+        run: dotnet build SignalrVsSse.slnx -c Release -nologo -v q
+      - name: Test
+        shell: bash
+        run: |
+          set -o pipefail
+          dotnet test SignalrVsSse.slnx -c Release --no-build -nologo --logger "console;verbosity=normal" 2>&1 | tee test-output.txt
+      - name: Demo
+        shell: bash
+        run: |
+          set -o pipefail
+          dotnet run --project src/RaceFeed.Demo -c Release --no-build | tee demo-output.txt
+      - name: Publish demo output
+        if: always()
+        shell: bash
+        run: |
+          [ -f demo-output.txt ] || exit 0
+          body=$(sed 's/%/%25/g' demo-output.txt | awk '{printf "%s%%0A", $0}')
+          echo "::notice title=demo output::$body"
+      - name: Publish test output on failure
+        if: failure()
+        shell: bash
+        run: |
+          [ -f test-output.txt ] || exit 0
+          body=$(grep -v '^\s*$' test-output.txt | tail -60 | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+          echo "::error title=test output::$body"
